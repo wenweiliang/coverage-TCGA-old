@@ -1,0 +1,10 @@
+coverage_WGS$ cat /gscuser/mwyczalk/projects/public/TCGA_Status/data/GMT_BRCA_WGS.dat | grep -v "Not Imported" | grep -v "?" | cut -f2,8 > BRCA_WGS_bam.list
+#Find the BAM files that exist and run it first.
+coverage_WGS$ bash size.sh
+coverage_WGS$ cat status.txt | awk -F "\t" '$3!=""' > BRCA_WGS_bam.list
+coverage_WGS$ bsub -oo calculate.log "bash calculate_coverage.sh"
+coverage_WGS$ bsub -oo liftover.log "bash liftover.sh"
+coverage_WGS$ bash summerize_avg_cov_from_start2.sh
+coverage_WGS$ bash catfile.sh
+coverage_WGS$ bash average_base_coverage.sh
+
